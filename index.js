@@ -10,14 +10,14 @@ module.exports = function blockLevelOneWhispers(dispatch) {
 
   dispatch.hook('S_WHISPER', 1, (event) => {
     if(event.author !== name) {
+      if(!(whisperQueues[event.author]))
+        whisperQueues[event.author] = [];
+      whisperQueues[event.author].push(event.message);
       dispatch.toServer('C_ASK_INTERACTIVE', 1, {
         unk1: 1,
         unk2: 4012,
         name: event.author
       });
-      if(!(whisperQueues[event.author]))
-        whisperQueues[event.author] = [];
-      whisperQueues[event.author].push(event.message);
       return false;
     }
   });
@@ -35,8 +35,10 @@ module.exports = function blockLevelOneWhispers(dispatch) {
           message: whisperQueues[event.name].shift()
         });
       }
-      else
+      else {
         whisperQueues[event.name].shift();
+        console.log("message from level 1 character " + event.name + " blocked");
+      }
     }
     /*if(whisperQueues[event.name] && whisperQueues[event.name].length == 0)
       delete whisperQueues.author;
