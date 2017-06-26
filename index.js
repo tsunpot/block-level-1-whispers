@@ -4,6 +4,7 @@ module.exports = function blockLevelOneWhispers(dispatch) {
   var cid;
   var whisperQueues = {};
   var debug = true;
+  var HiddenName;
 
   if(debug) {
     dispatch.hook('C_ASK_INTERACTIVE', 1, (event) => {
@@ -22,9 +23,14 @@ module.exports = function blockLevelOneWhispers(dispatch) {
       whisperQueues[event.author].push(event.message);
       dispatch.toServer('C_ASK_INTERACTIVE', 1, {
         unk1: 1,
-        unk2: 4012,
+        unk2: 4012, // 501 for RU
         name: event.author
       });
+	  if(debug && HiddenName) 
+	  {
+		  console.log(HiddenName + " is already waiting for response, ERROR, replaced with: " + event.author);
+	  }
+	  HiddenName = event.author;
       return false;
     }
   });
@@ -47,10 +53,22 @@ module.exports = function blockLevelOneWhispers(dispatch) {
       else {
         while(whisperQueues[event.name].length > 0) {
           whisperQueues[event.name].shift();
-          console.log("message from level 1 character " + event.name + " blocked");
+          if(debug)
+			{	
+				console.log("message from level 1 character " + event.name + " blocked");
+			}
         }
       }
     }
+	if(event.name == HiddenName)
+	{
+		HiddenName = "";
+		if(debug) 
+		{
+		  console.log("hide interaction from: " + event.name);
+		}
+		return false;
+	}
     /*if(whisperQueues[event.name] && whisperQueues[event.name].length == 0)
       delete whisperQueues.author;
     */
