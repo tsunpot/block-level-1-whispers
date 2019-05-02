@@ -8,16 +8,16 @@ module.exports = function blockLevelOneWhispers(dispatch) {
   var HiddenName;
 
   if(debug) {
-    dispatch.hook('C_ASK_INTERACTIVE', 1, (event) => {
+    dispatch.hook('C_ASK_INTERACTIVE', 2, (event) => {
       console.log(event);
     });
   }
 
-  dispatch.hook('S_LOGIN', 1, (event) => {
+  dispatch.hook('S_LOGIN', 13, (event) => {
     ({name, cid, serverId} = event);
   });
 
-  dispatch.hook('S_WHISPER', 1, (event) => {
+  dispatch.hook('S_WHISPER', 3, (event) => {
     if(event.author !== name) {
       if(!(whisperQueues[event.author]))
         whisperQueues[event.author] = [];
@@ -40,7 +40,7 @@ module.exports = function blockLevelOneWhispers(dispatch) {
     if(whisperQueues[event.name] && whisperQueues[event.name].length > 0){
       if(event.level > 1) {
         while(whisperQueues[event.name].length > 0) {
-          dispatch.toClient('S_WHISPER', 1, {
+          dispatch.toClient('S_WHISPER', 3, {
             player: cid,
             unk1: 0,
             gm: 0,
