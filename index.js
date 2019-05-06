@@ -13,7 +13,7 @@ module.exports = function blockLevelOneWhispers(dispatch) {
     });
   }
 
-  dispatch.hook('S_LOGIN', 13, (event) => {
+  dispatch.hook('S_LOGIN', 12, (event) => {
     ({name, cid, serverId} = event);
   });
 
