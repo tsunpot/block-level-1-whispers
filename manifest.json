@@ -1,0 +1,13 @@
+{
+    "files": {
+        "README.md": "c16593649c9e0ed088023aaebf6b62f4250f416f2e86be354633a797d83bdd06",
+        "index.js": "fbf1c9a56a560bed58fbcf35b7f25f937574b2a22d93b2756c64da8b45b1cc4b",
+        "module.json": "b4737e08aea4f2e0656b461a716576e8bdf66f2da9c9c66a7f54a44549b66771"
+    },
+    "defs": {
+        "C_ASK_INTERACTIVE": [1,2],
+        "S_ANSWER_INTERACTIVE": 2,
+        "S_LOGIN": 13,
+        "S_WHISPER": 3
+    }
+}
